@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #222; }
+        canvas { background: #111; border: 2px solid #4caf50; }
+        h1 { color: #4caf50; text-align: center; }
+        .controls { text-align: center; margin-top: 10px; }
+        .controls button { margin: 0 5px; padding: 6px 14px; font-size: 16px; border-radius: 4px; border: none; background: #4caf50; color: #fff; cursor: pointer; }
+        .controls button:active { background: #388e3c; }
+        .controls span { color: #fff; margin: 0 10px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Snake Game</h1>
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <div class="controls">
+            <button id="restartBtn">Restart</button>
+            <span>Speed:</span>
+            <button id="slowerBtn">-</button>
+            <span id="speedValue">5</span>
+            <button id="fasterBtn">+</button>
+        </div>
+    </div>
+    <script src="snake.js"></script>
+</body>
+</html>
