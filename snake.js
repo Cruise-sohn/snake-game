@@ -5,6 +5,39 @@ const gridSize = 20;
 const tileCount = canvas.width / gridSize;
 let snake, direction, food, gameOver, score, speed, movePending, loopTimeout;
 
+// 랭킹 관련 상수 및 함수
+const RANKING_KEY = 'snake_ranking';
+const MAX_RANKING = 5;
+
+function getRanking() {
+    return JSON.parse(localStorage.getItem(RANKING_KEY) || '[]');
+}
+
+function saveRanking(ranking) {
+    localStorage.setItem(RANKING_KEY, JSON.stringify(ranking));
+}
+
+function updateRanking(newScore) {
+    let ranking = getRanking();
+    ranking.push(newScore);
+    ranking.sort((a, b) => b - a);
+    ranking = ranking.slice(0, MAX_RANKING);
+    saveRanking(ranking);
+    renderRanking();
+}
+
+function renderRanking() {
+    const ranking = getRanking();
+    const rankingList = document.getElementById('rankingList');
+    if (!rankingList) return;
+    rankingList.innerHTML = '';
+    ranking.forEach((score, idx) => {
+        const li = document.createElement('li');
+        li.textContent = `${score} 점`;
+        rankingList.appendChild(li);
+    });
+}
+
 function initGame() {
     snake = [{ x: 10, y: 10 }];
     direction = { x: 0, y: 0 };
@@ -14,7 +47,8 @@ function initGame() {
     speed = speed || 5; // 기본 속도 5
     movePending = false;
     draw();
-}
+    renderRanking();
+} 
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -37,6 +71,7 @@ function draw() {
         ctx.fillText('Game Over', 100, 200);
         ctx.font = '24px Arial';
         ctx.fillText('Score: ' + score, 150, 240);
+        updateRanking(score); // 게임 오버 시 랭킹 업데이트
     }
 }
 
